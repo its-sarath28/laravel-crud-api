@@ -22,14 +22,15 @@ Route::post('/v1/auth/sign-up', [App\Http\Controllers\AuthController::class, "si
 
 Route::post('/v1/auth/sign-in', [App\Http\Controllers\AuthController::class, "signIn"]);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/v1/products', [App\Http\Controllers\ProductController::class, 'getAllProducts']);
-
+Route::middleware(['auth:sanctum', 'checkRole:ADMIN'])->group(function () {
     Route::post('/v1/products/create-product', [App\Http\Controllers\ProductController::class, 'createProduct']);
-
-    Route::get('/v1/products/{productId}', [App\Http\Controllers\ProductController::class, 'getSingleProduct']);
 
     Route::put('/v1/products/{productId}/update-product', [App\Http\Controllers\ProductController::class, 'updateProduct']);
 
     Route::delete('/v1/products/{productId}/delete-product', [App\Http\Controllers\ProductController::class, 'deleteProduct']);
 });
+
+
+Route::get('/v1/products/{productId}', [App\Http\Controllers\ProductController::class, 'getSingleProduct']);
+
+Route::get('/v1/products', [App\Http\Controllers\ProductController::class, 'getAllProducts']);

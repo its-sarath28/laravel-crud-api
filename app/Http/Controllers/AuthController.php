@@ -22,6 +22,7 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => 'USER'
         ]);
 
         return response()->json([
@@ -45,6 +46,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'User logged in successfully',
                 'status' => 200,
+                'role' => $user->role,
                 'token' => $token
             ], 200);
         } else {
